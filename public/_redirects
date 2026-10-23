@@ -1,0 +1,7 @@
+# Cloudflare Pages rewrites — production-style URLs for the static site.
+# (The Next.js dev config mirrors these rules for local preview.)
+/cafe/:slug   /cafe.html
+/login        /login.html
+/admin        /admin.html
+/superadmin   /superadmin.html
+/qr-print     /qr-print.html

@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Public cafe menu — mobile-first customer experience
+   ========================================================================== */
+
+.menu-page { background: var(--bg, var(--bg)); min-height: 100dvh; }
+
+/* ---------- Header ---------- */
+.menu-header { position: relative; background: var(--surface); border-bottom: 1px solid var(--border); overflow: hidden; }
+.menu-cover { position: relative; height: 168px; }
+@media (min-width: 720px) { .menu-cover { height: 240px; } }
+.menu-cover img { width: 100%; height: 100%; object-fit: cover; }
+.menu-cover::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(20, 14, 8, .55), rgba(20, 14, 8, 0) 55%);
+}
+.menu-head-inner { padding: 0 20px 1.2rem; position: relative; }
+.menu-logo-wrap { margin-top: -44px; margin-bottom: .8rem; position: relative; z-index: 2; }
+.menu-logo {
+  width: 88px; height: 88px; border-radius: 24px; object-fit: cover;
+  border: 4px solid var(--surface); box-shadow: var(--shadow-2); background: var(--surface);
+}
+.menu-logo-fallback {
+  width: 88px; height: 88px; border-radius: 24px; border: 4px solid var(--surface);
+  box-shadow: var(--shadow-2); background: var(--primary); color: #fff;
+  display: grid; place-items: center; font-size: 1.9rem; font-weight: 800;
+}
+.menu-title-row { display: flex; align-items: center; justify-content: space-between; gap: .8rem; flex-wrap: wrap; }
+.menu-name { font-size: 1.55rem; font-weight: 800; margin: 0; }
+.menu-desc { color: var(--text-2); margin-top: .3rem; max-width: 640px; }
+.menu-lang { display: flex; gap: .4rem; }
+.menu-lang .chip { min-height: 38px; padding: .3rem .8rem; font-size: .84rem; }
+.menu-contact { display: flex; flex-wrap: wrap; gap: .4rem .5rem; margin-top: .9rem; }
+.contact-pill {
+  display: inline-flex; align-items: center; gap: .45rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text-2); border-radius: 999px; padding: .35rem .8rem; font-size: .84rem; font-weight: 600;
+  text-decoration: none !important; min-height: 36px;
+}
+.contact-pill:hover { border-color: var(--border-strong); color: var(--text); }
+.contact-pill .ic { color: var(--primary); flex: none; }
+
+/* ---------- Sticky search + categories ---------- */
+.menu-nav {
+  position: sticky; top: 0; z-index: 30;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: .65rem 0;
+}
+.menu-nav-inner { display: grid; gap: .55rem; }
+.search-box { position: relative; }
+.search-box .input { padding-inline-start: 2.6rem; border-radius: 999px; background: var(--surface); }
+.search-box .ic {
+  position: absolute; top: 50%; inset-inline-start: 1rem; transform: translateY(-50%);
+  color: var(--text-3); pointer-events: none;
+}
+.search-clear {
+  position: absolute; top: 50%; inset-inline-end: .5rem; transform: translateY(-50%);
+  border: none; background: var(--surface-2); color: var(--text-2);
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: .95rem;
+}
+.cat-scroll {
+  display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .15rem;
+  scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+}
+.cat-scroll::-webkit-scrollbar { height: 4px; }
+.cat-scroll::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
+.cat-scroll .chip { flex: none; }
+
+/* ---------- Sections & product grid ---------- */
+.menu-sections { padding: 1.4rem 0 3.5rem; display: grid; gap: 2rem; }
+.cat-section > h2 { font-size: 1.18rem; margin: 0 0 .9rem; display: flex; align-items: center; gap: .6rem; }
+.cat-section > h2 .count { font-size: .78rem; color: var(--text-3); font-weight: 600; }
+.product-grid { display: grid; gap: .85rem; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.product-card {
+  display: flex; gap: .9rem; align-items: stretch; text-align: start;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: .8rem; cursor: pointer; box-shadow: var(--shadow-1);
+  transition: box-shadow .16s ease, transform .12s ease;
+  width: 100%; font: inherit; color: inherit;
+}
+.product-card:hover { box-shadow: var(--shadow-2); }
+.product-card:active { transform: scale(.99); }
+.product-thumb {
+  width: 92px; height: 92px; flex: none; border-radius: var(--radius-sm);
+  object-fit: cover; background: var(--surface-2); overflow: hidden;
+}
+.product-thumb.placeholder { display: grid; place-items: center; color: var(--border-strong); }
+.product-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .18rem; }
+.product-name { font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; }
+.product-desc {
+  color: var(--text-2); font-size: .84rem; display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.product-price { margin-top: auto; font-weight: 800; color: var(--primary); font-size: 1rem; }
+.product-price .cur { font-size: .78em; font-weight: 700; color: var(--text-3); }
+.product-card.unavailable .product-thumb img, .product-card.unavailable img { filter: grayscale(.9); opacity: .55; }
+.product-card.unavailable .product-name, .product-card.unavailable .product-price { color: var(--text-3); }
+.avail-tag {
+  position: absolute; inset-block-start: .6rem; inset-inline-start: .6rem;
+}
+.product-card { position: relative; }
+
+/* ---------- Product modal ---------- */
+.pd-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: var(--radius-sm); background: var(--surface-2); }
+.pd-price { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+.pd-badge-row { display: flex; gap: .4rem; margin: .4rem 0 .8rem; }
+.pd-desc { color: var(--text-2); white-space: pre-line; }
+.pd-unavailable-note {
+  margin-top: .8rem; background: var(--warn-soft); color: var(--warn);
+  padding: .6rem .9rem; border-radius: var(--radius-sm); font-size: .88rem; font-weight: 700;
+}
+
+/* ---------- Theme variants (set from cafe.theme_settings) ---------- */
+.menu-root.theme-white { --bg: #ffffff; }
+.menu-root.theme-dark {
+  --bg: #171310;
+  --surface: #211a15;
+  --surface-2: #2c231c;
+  --border: #3b2f25;
+  --border-strong: #4a3c2f;
+  --text: #f2ece3;
+  --text-2: #b7ab9d;
+  --text-3: #8d8072;
+}
+.menu-root.theme-dark .menu-nav {
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+}
+.menu-root.cards-outlined .product-card { box-shadow: none; }
+.menu-root.header-plain .menu-head-inner { padding-top: 1.4rem; }
+.menu-root.header-plain .menu-logo-wrap { margin-top: 0; }
+
+/* ---------- Menu states ---------- */
+.menu-state { min-height: 70dvh; display: grid; place-items: center; padding: 2rem 1rem; }
+.menu-state .card { max-width: 480px; width: 100%; padding: 2.2rem 1.6rem; text-align: center; }
+.menu-state .emoji-art { width: 84px; height: 84px; margin: 0 auto 1rem; border-radius: 22px; display: grid; place-items: center; }
+.menu-state.expired .emoji-art { background: var(--warn-soft); color: var(--warn); }
+.menu-state.suspended .emoji-art { background: var(--danger-soft); color: var(--danger); }
+.menu-state.notfound .emoji-art { background: var(--surface-2); color: var(--text-3); }
+
+.skel-card { height: 116px; }
+.menu-footer { text-align: center; color: var(--text-3); font-size: .8rem; padding: 1.5rem 1rem 2.5rem; }
+
+/* Toast for search hint etc. inherits app.css */
+.menu-root .btn, .menu-root .input { font-size: 1em; }

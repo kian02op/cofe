@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>چاپ QR — منوکده</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <script src="/config.js"></script>
+  <script src="/js/vendor/qrcode.js"></script>
+</head>
+<body>
+  <main id="qr-print-root" class="container"></main>
+  <script type="module">
+    import { renderQrPrint } from "/js/admin/qr.js";
+    renderQrPrint();
+  </script>
+</body>
+</html>

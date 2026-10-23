@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#6b4a32"/>
+<stop offset="1" stop-color="#8a6a4b"/>
+</linearGradient>
+<radialGradient id="glow" cx="0.5" cy="0.32" r="0.75">
+<stop offset="0" stop-color="rgba(255,255,255,0.28)"/>
+<stop offset="1" stop-color="rgba(255,255,255,0)"/>
+</radialGradient>
+</defs>
+<rect width="300" height="300" fill="url(#bg)"/>
+<rect width="300" height="300" fill="url(#glow)"/>
+<circle cx="46" cy="258" r="90" fill="rgba(255,255,255,0.08)"/>
+<circle cx="262" cy="36" r="70" fill="rgba(255,255,255,0.09)"/>
+<g transform="translate(150,150)"><path d="M-58,42 v-38 l58,-30 58,30 v38 z" fill="rgba(255,255,255,0.92)"/><path d="M-58,4 l58,-30 58,30" fill="#8a6a4b"/><rect x="-58" y="26" width="116" height="16" rx="6" fill="#8a6a4b"/><circle cx="0" cy="-34" r="6" fill="#e11d48"/><path d="M0,-34 v-16" stroke="#e11d48" stroke-width="4"/><path d="M-58,4 q10,10 20,0 q10,-10 20,0 q10,10 20,0 q10,-10 20,0 q10,10 18,0" stroke="rgba(255,255,255,0.9)" stroke-width="6" fill="none"/></g>
+</svg>
