@@ -1,0 +1,1091 @@
+Project: Multi-Tenant Cafe Digital Menu SaaS
+
+1. Your Role
+
+Act as a senior full-stack software engineer, SaaS architect, UI/UX designer, database engineer, and application security specialist.
+
+Build a production-oriented, responsive, multi-tenant SaaS platform that allows multiple cafes to create and manage their own digital menus.
+
+The platform must be suitable for a small business launching its first commercial version. Prioritize simplicity, reliability, security, maintainability, performance, and a polished user experience.
+
+Do not build a mere static mockup or a frontend-only demonstration. Implement the actual application, including database integration, authentication, authorization, CRUD operations, image uploads, tenant isolation, and deployment documentation.
+
+If you have access to a development environment, create the project files, install dependencies, run available checks, and fix errors. Do not stop at providing code snippets or an architecture proposal.
+
+2. Product Scope
+
+Build a shared SaaS platform for multiple cafes.
+
+Each cafe must have:
+
+• Its own public digital menu.
+
+• Its own unique public URL.
+
+• Its own secure admin dashboard.
+
+• Its own products, categories, branding, and settings.
+
+• Its own subscription status.
+
+• Its own analytics data.
+
+The platform owner must have a separate super-admin dashboard to manage cafes and subscriptions.
+
+IMPORTANT: This is the initial MVP.
+
+Do NOT implement online ordering, shopping carts, payment processing, delivery management, POS integrations, inventory accounting, loyalty programs, or unnecessary enterprise features.
+
+Focus exclusively on the Base and Professional subscription tiers described below.
+
+3. Technology Stack
+
+Use the following technologies:
+
+Frontend
+
+• HTML5
+
+• CSS3
+
+• Vanilla JavaScript using ES modules
+
+• Responsive design with reusable components and clean separation of concerns
+
+Do not require React, Vue, Angular, or another frontend framework unless a technical limitation makes it genuinely necessary. The default implementation must use vanilla JavaScript.
+
+Backend and Database
+
+Use Supabase for:
+
+• PostgreSQL database.
+
+• Authentication.
+
+• Row Level Security (RLS).
+
+• Storage for cafe logos and product images.
+
+• Secure database access and supported server-side functionality.
+
+Use Supabase's supported JavaScript client library.
+
+Do not place service-role keys, secret keys, or other privileged credentials in browser-accessible code.
+
+Publicly accessible menu data must be separated from private cafe management data.
+
+Use Supabase Edge Functions or another trusted server-side mechanism when privileged operations cannot safely be implemented through client-side code and RLS.
+
+Hosting
+
+Prepare the frontend for deployment on a static hosting provider such as Cloudflare Pages or an equivalent service.
+
+The application must not depend on a local development server to work after deployment.
+
+Provide a .env.example file for required public configuration values. Explain which values are safe to expose and which secrets must remain server-side.
+
+4. User Roles and Permissions
+
+Implement three permission levels.
+
+A. Public Visitor
+
+Unauthenticated visitors can:
+
+• Open a cafe's public menu.
+
+• Browse categories and products.
+
+• Search for products.
+
+• View product details, images, descriptions, and prices.
+
+• See availability status.
+
+• View the cafe's contact information, address, opening hours, and social links.
+
+• Switch the menu language if the Professional plan supports multiple languages.
+
+Visitors must never access admin dashboards or private customer and subscription information.
+
+B. Cafe Administrator
+
+An authenticated cafe administrator can:
+
+• Access the dashboard for their assigned cafe.
+
+• Create, edit, delete, and reorder categories.
+
+• Create, edit, delete, reorder, and manage products.
+
+• Upload and remove product images.
+
+• Change prices and availability.
+
+• Customize supported menu appearance settings.
+
+• Update cafe information.
+
+• Generate and download a QR code for their public menu.
+
+• View analytics permitted by their subscription.
+
+• View their subscription status and expiration date.
+
+Cafe administrators must only be able to access and modify data belonging to their assigned cafe.
+
+Do not rely on frontend filtering for security. Enforce permissions through database policies and trusted backend logic.
+
+C. Platform Super Administrator
+
+Create a separate super-admin area for the platform owner.
+
+The super administrator can:
+
+• View all registered cafes.
+
+• Create cafe records and administrator accounts.
+
+• Assign an administrator to a cafe.
+
+• Edit cafe information.
+
+• Activate, suspend, or deactivate a cafe.
+
+• Assign Base or Professional plans.
+
+• Set subscription start and expiration dates.
+
+• Extend or renew subscriptions.
+
+• View subscription status and basic platform-wide statistics.
+
+• Search and filter cafes.
+
+• View the number of products and categories per cafe.
+
+• See whether a cafe is active, expired, or suspended.
+
+Super-admin access must be protected by secure server-side authorization. Do not grant administrative privileges merely because a user edits a profile field or browser variable.
+
+There must be no public sign-up route that automatically grants super-admin privileges.
+
+5. Public Cafe Menu
+
+Create a polished, mobile-first public menu.
+
+Each cafe should have a URL similar to:
+
+https://example.com/cafe/cafe-slug
+
+The actual domain must be configurable.
+
+Cafe Header
+
+Display:
+
+• Cafe logo.
+
+• Cafe name.
+
+• Optional cover image.
+
+• Short description.
+
+• Address.
+
+• Phone number.
+
+• Opening hours.
+
+• Instagram or other social media links.
+
+• Optional map/directions link.
+
+Only show fields that the cafe has configured.
+
+Menu Categories
+
+Support categories such as:
+
+• Hot Drinks
+
+• Cold Drinks
+
+• Coffee
+
+• Tea
+
+• Cakes
+
+• Desserts
+
+• Food
+
+• Special Offers
+
+These are examples, not mandatory default categories.
+
+Cafe administrators must be able to create, rename, reorder, hide, and delete categories.
+
+Deleting a category must be handled safely. Warn the administrator if it contains products and require a deliberate choice before deleting or reassigning those products.
+
+Products
+
+Each product must support:
+
+• Name.
+
+• Optional description.
+
+• Price.
+
+• Currency setting or clearly configurable currency display.
+
+• Optional image.
+
+• Category.
+
+• Availability status.
+
+• Display order.
+
+• Optional badge such as Popular, New, or Special.
+
+• Creation and modification timestamps.
+
+Use integer minor units or another precise representation for monetary values to avoid floating-point rounding errors.
+
+Clearly define how prices are stored and formatted. Support the currency appropriate to the cafe's configured locale.
+
+Product Availability
+
+Administrators can mark a product as available or unavailable without deleting it.
+
+Unavailable products should remain visible with a clear "Unavailable" label, unless the cafe chooses to hide unavailable products.
+
+Changes must appear in the public menu after saving and refreshing the relevant data.
+
+Search and Navigation
+
+Implement:
+
+• Search by product name.
+
+• Category navigation.
+
+• Clear active-category indication.
+
+• Empty search results state.
+
+• Loading states.
+
+• Error states.
+
+• A friendly message when a menu contains no products.
+
+Search should work in the currently selected language where applicable.
+
+Performance
+
+• Lazy-load non-critical images.
+
+• Use appropriately sized images.
+
+• Avoid unnecessary database queries.
+
+• Use pagination or efficient loading if the dataset grows.
+
+• Avoid loading private dashboard data on public pages.
+
+6. Cafe Admin Dashboard
+
+Create a clean, easy-to-use admin dashboard.
+
+It must be usable on desktop, tablet, and mobile.
+
+Dashboard Overview
+
+Show:
+
+• Cafe name.
+
+• Subscription plan.
+
+• Subscription expiration date.
+
+• Number of active products.
+
+• Number of categories.
+
+• Menu visit statistics, when available.
+
+• Quick actions for adding a product and opening the public menu.
+
+Product Management
+
+Implement complete CRUD functionality:
+
+• Create products.
+
+• Edit products.
+
+• Delete products after confirmation.
+
+• Search and filter products.
+
+• Filter by category and availability.
+
+• Reorder products.
+
+• Change availability using a convenient toggle.
+
+• Upload or replace images.
+
+• Preview product changes where practical.
+
+Use form validation, helpful error messages, success feedback, and loading indicators.
+
+Prevent duplicate submissions while an operation is in progress.
+
+Category Management
+
+Implement:
+
+• Create category.
+
+• Rename category.
+
+• Delete category with safeguards.
+
+• Reorder categories.
+
+• Set category visibility.
+
+• Assign products to categories.
+
+Cafe Settings
+
+Allow administrators to edit:
+
+• Cafe name.
+
+• Public slug, subject to uniqueness validation.
+
+• Description.
+
+• Logo and cover image.
+
+• Address.
+
+• Phone number.
+
+• Opening hours.
+
+• Social media links.
+
+• Default menu language.
+
+• Available menu languages, according to the subscription plan.
+
+• Currency display settings.
+
+• Supported appearance options.
+
+Changing a public slug must trigger a confirmation and must not silently break an existing URL.
+
+Menu Preview
+
+Provide a button to preview the public menu.
+
+The preview should accurately reflect saved settings and products.
+
+Clearly distinguish unsaved changes from saved changes.
+
+7. QR Code
+
+Every cafe must have its own QR code that points to its public menu URL.
+
+Implement:
+
+• QR code generation.
+
+• Preview inside the admin dashboard.
+
+• Download as PNG.
+
+• Print-friendly QR page.
+
+• Optional cafe name and logo in the printable layout.
+
+The QR code must remain unchanged when products, prices, or categories are edited.
+
+If the cafe's slug changes, generate or refresh the QR code to use the new URL.
+
+Do not encode menu contents directly into the QR code. Encode only the public menu URL.
+
+8. Subscription Plans and Feature Limits
+
+Implement two plans: Base and Professional.
+
+Subscriptions are initially managed manually by the platform super administrator. Do not implement payment gateways in this MVP.
+
+Store subscription data in the database and enforce plan limits in trusted backend logic or database policies where appropriate.
+
+Base Plan
+
+Include:
+
+• One public cafe menu.
+
+• One assigned cafe administrator account.
+
+• Standard menu templates.
+
+• Cafe logo and basic branding.
+
+• Product and category management.
+
+• Product images.
+
+• Product availability controls.
+
+• QR code generation and download.
+
+• Cafe contact information and opening hours.
+
+• Public menu search and category navigation.
+
+• Basic visit analytics.
+
+• Standard support.
+
+Suggested initial limits:
+
+• Up to 50 active products.
+
+• Up to 10 categories.
+
+• One menu language.
+
+• Standard theme customization.
+
+Make these limits configurable rather than hardcoding them throughout the application.
+
+Professional Plan
+
+Include everything in Base, plus:
+
+• Expanded product and category limits.
+
+• Multiple menu languages.
+
+• Additional theme and color customization.
+
+• Promotional badges such as Popular, New, and Special Offer.
+
+• More detailed analytics and date-range filters.
+
+• Product popularity insights based on available tracking data.
+
+• Additional cafe branding options.
+
+• Higher image storage limits, subject to configurable storage quotas.
+
+Suggested initial limits:
+
+• Up to 200 active products.
+
+• Up to 30 categories.
+
+• Up to 3 menu languages.
+
+• Additional theme customization options.
+
+All plan limits must be configurable from a central plan configuration or database structure.
+
+Do not duplicate plan-limit logic across multiple unrelated files.
+
+If a cafe exceeds a limit, show a clear explanation and an upgrade prompt rather than silently failing.
+
+Subscription Statuses
+
+Support:
+
+• Trial, if enabled by the platform owner.
+
+• Active.
+
+• Expired.
+
+• Suspended.
+
+• Cancelled.
+
+Define and document the behavior for each status.
+
+Suggested policy:
+
+• Active: the public menu and permitted dashboard features work normally.
+
+• Expired: the public menu displays a configurable subscription-expired page or message; dashboard access is limited to subscription information and permitted account actions.
+
+• Suspended: the public menu is disabled, and management access is restricted according to the platform owner's policy.
+
+• Cancelled: define whether access remains active until the paid-through expiration date.
+
+Do not automatically delete cafe data when a subscription expires.
+
+Allow the platform owner to restore access without losing products, images, or settings.
+
+Enforce these rules consistently on the server and in public data-access policies, not just by hiding frontend elements.
+
+9. Analytics
+
+Implement privacy-conscious, lightweight menu analytics.
+
+Track:
+
+• Menu page views.
+
+• Daily visits.
+
+• Visits over a selectable date range.
+
+• Popular menu categories based on recorded interactions.
+
+• Product detail views, if product detail pages or dialogs exist.
+
+• Optional QR campaign identifiers if they can be implemented without unnecessary complexity.
+
+Use a clear definition of a visit and avoid treating every database request as a separate page view.
+
+Avoid counting obvious repeated requests as new visits when practical.
+
+Do not collect unnecessary personal information, precise location, or sensitive identifiers.
+
+Do not claim to measure actual sales or revenue. The application does not include online ordering.
+
+The Base plan should show basic visit totals and a simple time-based chart.
+
+The Professional plan should include date filtering, category and product engagement insights, and more detailed charts.
+
+If the user has a privacy preference or consent requirement that applies to analytics, respect it and document the implementation.
+
+10. UI/UX Design Requirements
+
+The visual design must look like a polished commercial SaaS product, not a generic school project.
+
+General Design
+
+• Mobile-first responsive layouts.
+
+• Clean typography.
+
+• Consistent spacing.
+
+• Subtle shadows and borders.
+
+• Clear hierarchy.
+
+• Accessible color contrast.
+
+• Modern cards and form controls.
+
+• Professional empty states.
+
+• Skeleton loaders where useful.
+
+• Toast notifications for successful actions and errors.
+
+• Confirmation dialogs for destructive actions.
+
+• Keyboard-accessible navigation and controls.
+
+Avoid excessive gradients, unnecessary animations, oversized decorative elements, and cluttered dashboards.
+
+Public Menu Design
+
+Prioritize the customer experience:
+
+• Fast loading.
+
+• Readable prices.
+
+• Attractive product photography.
+
+• Simple category navigation.
+
+• Clear availability labels.
+
+• Comfortable touch targets.
+
+• Minimal friction when browsing.
+
+The public menu should work well on common Android and iPhone screen sizes.
+
+Admin Dashboard Design
+
+Use a consistent sidebar or mobile navigation pattern.
+
+Include clearly labeled sections:
+
+• Overview.
+
+• Products.
+
+• Categories.
+
+• Cafe Settings.
+
+• Appearance.
+
+• QR Code.
+
+• Analytics.
+
+• Subscription.
+
+Only display features permitted by the current plan.
+
+Localization
+
+Prepare the interface for Persian and RTL support.
+
+• Default interface language: Persian.
+
+• Use proper right-to-left layout.
+
+• Use readable Persian typography.
+
+• Ensure numbers, prices, phone numbers, and URLs render correctly.
+
+• Keep the architecture extensible for English and other menu languages.
+
+• Do not assume that changing the document direction alone translates the interface.
+
+Store translated product and category content in a structured, extensible format.
+
+11. Database Schema
+
+Design a normalized PostgreSQL schema with appropriate foreign keys, indexes, unique constraints, and timestamps.
+
+At minimum, include tables or equivalent structures for:
+
+cafes
+
+• id
+
+• name
+
+• slug
+
+• description
+
+• logo_path
+
+• cover_image_path
+
+• address
+
+• phone
+
+• opening_hours
+
+• social_links
+
+• default_language
+
+• currency
+
+• theme_settings
+
+• status
+
+• created_at
+
+• updated_at
+
+profiles
+
+• id, referencing the authenticated Supabase user
+
+• display_name
+
+• created_at
+
+• updated_at
+
+cafe_memberships
+
+• id
+
+• cafe_id
+
+• user_id
+
+• role
+
+• created_at
+
+Use this structure to support secure cafe-user relationships.
+
+categories
+
+• id
+
+• cafe_id
+
+• name
+
+• description, if required
+
+• display_order
+
+• is_visible
+
+• created_at
+
+• updated_at
+
+products
+
+• id
+
+• cafe_id
+
+• category_id
+
+• name
+
+• description
+
+• price_minor
+
+• currency, if required by the selected price model
+
+• image_path
+
+• is_available
+
+• is_visible
+
+• badge
+
+• display_order
+
+• created_at
+
+• updated_at
+
+subscriptions
+
+• id
+
+• cafe_id
+
+• plan_code
+
+• status
+
+• starts_at
+
+• expires_at
+
+• created_at
+
+• updated_at
+
+analytics_events
+
+• id
+
+• cafe_id
+
+• event_type
+
+• product_id, nullable
+
+• category_id, nullable
+
+• occurred_at
+
+• minimal, non-sensitive metadata where justified
+
+Add additional tables when required for localized product content, audit records, administrator invitations, or secure platform administration.
+
+Define cascade and deletion behavior carefully.
+
+For example, ensure that deleting a category cannot accidentally delete unrelated cafe data.
+
+Add indexes for frequently used lookups, including public slugs, cafe_id, category_id, product visibility, and analytics date queries.
+
+Use database migrations or SQL schema files so the application can be reproduced reliably.
+
+12. Security Requirements
+
+Security is a core requirement, not an optional improvement.
+
+Implement:
+
+• Supabase Auth for user authentication.
+
+• Row Level Security for all relevant tables.
+
+• Least-privilege access.
+
+• Server-side authorization for privileged operations.
+
+• Secure super-admin role assignment.
+
+• Input validation on both client and trusted server-side code.
+
+• Safe image upload restrictions for file type and size.
+
+• Safe rendering of user-generated text to prevent XSS.
+
+• Slug validation and uniqueness enforcement.
+
+• Protection against unauthorized cross-cafe data access.
+
+• Sensible authentication and session handling.
+
+• No secrets in source control.
+
+• Safe error messages that do not reveal confidential database details.
+
+• Appropriate abuse controls for public endpoints and analytics.
+
+Public users must only be able to read data intentionally published for active cafes.
+
+Cafe administrators must only manage records associated with their authorized cafe membership.
+
+The public must never be able to write directly to product, category, subscription, or privileged cafe-management tables.
+
+Do not implement authentication by simply checking a username or password stored in frontend JavaScript.
+
+Create and document automated tests for critical tenant-isolation and authorization rules.
+
+13. Image Storage
+
+Use Supabase Storage or an equivalent storage provider.
+
+Requirements:
+
+• Separate cafe and product image paths by cafe ID.
+
+• Validate MIME type and file size.
+
+• Restrict upload and delete permissions to authorized cafe members.
+
+• Ensure public menu images can be displayed without exposing private files.
+
+• Avoid orphaned image files when products or images are replaced.
+
+• Use appropriate image sizes and lazy loading.
+
+• Do not allow arbitrary file uploads.
+
+Document storage quotas and the implications of public versus private buckets.
+
+14. Error Handling and Reliability
+
+Implement:
+
+• Loading, success, empty, and error states.
+
+• Form validation messages.
+
+• Friendly authentication errors.
+
+• Network failure handling.
+
+• Prevention of accidental duplicate submissions.
+
+• Confirmation before deleting data.
+
+• Graceful behavior when an image upload fails.
+
+• Clear messaging when an account lacks permission.
+
+• Safe behavior when a cafe is expired or suspended.
+
+• Fallback UI when analytics data is unavailable.
+
+Do not swallow errors silently.
+
+Do not use fake data as if it were real production data.
+
+Seed/demo data may be provided separately and must be clearly identified.
+
+15. Testing Requirements
+
+Test the main user journeys.
+
+Public Menu
+
+• Opening a valid cafe menu.
+
+• Handling an unknown slug.
+
+• Displaying products and categories.
+
+• Searching products.
+
+• Showing unavailable products.
+
+• Handling empty menus.
+
+Cafe Admin
+
+• Signing in.
+
+• Adding and editing products.
+
+• Uploading images.
+
+• Creating and reordering categories.
+
+• Editing cafe settings.
+
+• Generating QR codes.
+
+• Viewing analytics.
+
+Security
+
+• Cafe A cannot read or modify Cafe B's private data.
+
+• A normal cafe administrator cannot become a super administrator.
+
+• Unauthenticated users cannot access private dashboard data.
+
+• Expired or suspended subscriptions follow the configured policy.
+
+• Plan limits cannot be bypassed by manipulating frontend requests.
+
+Subscription Management
+
+• Assigning plans.
+
+• Updating expiration dates.
+
+• Suspending and reactivating a cafe.
+
+• Preserving data after expiration.
+
+Fix any discovered issues before declaring the relevant functionality complete.
+
+16. Deliverables
+
+Produce a complete, organized project containing:
+
+• All frontend source files.
+
+• Database schema and migrations.
+
+• Supabase RLS policies.
+
+• Authentication and authorization implementation.
+
+• Storage configuration and policies.
+
+• Server-side functions required for privileged operations.
+
+• Example environment configuration.
+
+• Seed data for a demo cafe, if appropriate.
+
+• A README with setup and deployment instructions.
+
+• A security checklist.
+
+• Testing instructions and automated tests for critical behavior.
+
+• A clear list of features that are implemented versus those that remain incomplete.
+
+Explain how to:
+
+• Create a Supabase project.
+
+• Apply the database schema.
+
+• Configure authentication.
+
+• Configure storage.
+
+• Create the first super administrator securely.
+
+• Create a cafe and assign its administrator.
+
+• Run the frontend locally.
+
+• Deploy the application.
+
+• Configure the production domain.
+
+• Back up and restore important data.
+
+Never hardcode real credentials.
+
+Never claim that a feature works unless it has actually been implemented and appropriately tested.
+
+17. Development Workflow
+
+Follow this order:
+
+Phase 1: Inspect the environment and define the architecture.
+
+Phase 2: Implement the database schema, migrations, authentication, RLS, and authorization model.
+
+Phase 3: Build the public cafe menu.
+
+Phase 4: Build the cafe admin dashboard and CRUD operations.
+
+Phase 5: Implement QR generation and image storage.
+
+Phase 6: Implement Base and Professional plan enforcement and manual subscription management.
+
+Phase 7: Implement analytics.
+
+Phase 8: Polish responsive design, Persian RTL, accessibility, and error states.
+
+Phase 9: Run tests, fix bugs, and document deployment.
+
+Do not stop after Phase 1. Continue implementing the application whenever the environment permits.
+
+If a required credential or external configuration is unavailable, complete all independent work and clearly explain the exact setup action needed from me.
+
+Do not ask unnecessary questions. Use sensible defaults and document important assumptions.
+
+Final Acceptance Criteria
+
+The MVP is complete only when:
+
+• A public visitor can open a cafe's real menu.
+
+• A cafe administrator can securely manage their own products and categories.
+
+• Uploaded images appear correctly in the menu.
+
+• Price and availability changes persist in the database.
+
+• Every cafe has its own working public URL and QR code.
+
+• Cafe A cannot access or modify Cafe B's data.
+
+• The super administrator can manage cafes and subscriptions.
+
+• Base and Professional feature limits are enforced.
+
+• Expired and suspended subscriptions follow documented rules.
+
+• Analytics display actual recorded events rather than fabricated numbers.
+
+• The interface works on mobile and desktop.
+
+• Persian RTL works correctly.
+
+• The project can be deployed using the supplied documentation.
+
+Begin by inspecting the available environment, then implement the complete MVP. Prioritize a secure, working end-to-end product over superficial visual complexity.
